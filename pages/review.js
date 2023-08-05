@@ -3,12 +3,11 @@ import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
-const review = () => {
+const Review = () => {
   const methods = useForm();
   const {
     formState: { errors },
   } = methods;
-  const router = useRouter();
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
   const [loading, setLoading] = useState(false);
@@ -129,4 +128,4 @@ const review = () => {
   );
 };
 
-export default review;
+export default Review;
