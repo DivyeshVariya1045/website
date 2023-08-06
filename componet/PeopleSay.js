@@ -69,7 +69,6 @@ const PeopleSay = () => {
                             <h5 className="font-weight-bold m-0">
                               {review.firstName}
                             </h5>
-                            <span>Profession</span>
                           </div>
                         </div>
                       </div>
