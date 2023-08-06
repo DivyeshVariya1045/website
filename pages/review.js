@@ -8,13 +8,14 @@ const Review = () => {
   const {
     formState: { errors },
   } = methods;
+  const router=useRouter();
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const [review, setReview] = useState();
   const [refreshLocalStorage, setRefreshLocalStorage] = useState(false);
 
-  const handleSubmit = (data) => {
+  const handleSubmit = async (data) => {
     data.userId = JSON.parse(localStorage.getItem("User"))?._id;
     setSuccessMessage("");
     setErrorMessage("");
@@ -24,7 +25,7 @@ const Review = () => {
       moduleFor = "update-review";
       data._id = review?._id;
     }
-    axios
+    await axios
       .post(`${process.env.NEXT_PUBLIC_API_DOMAIN}/${moduleFor}`, data)
       .then((response) => {
         if (response?.data?.status === 200) {
@@ -33,6 +34,7 @@ const Review = () => {
             "reviewId",
             JSON.stringify(response?.data?.result)
           );
+          console.log(response?.data?.result)
           setRefreshLocalStorage((prev) => !prev);
           methods.reset();
         } else {
@@ -47,27 +49,45 @@ const Review = () => {
       });
   };
 
+  // useEffect(() => {
+  //   axios
+  //     .get(`${process.env.NEXT_PUBLIC_API_DOMAIN}/get-review`)
+  //     .then((response) => {
+  //       if (response.status === 200) {
+  //         let res = response?.data?.reviews?.find(
+  //           (review) => review.userId === "64aec93b150fdda7433c4d1e"
+  //         );
+
+  //         setReview(res);
+  //       } else {
+  //         setErrorMessage(response?.data?.message);
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       setErrorMessage(error?.message);
+  //     })
+  //     .finally(() => {});
+
+  //   // setReview(JSON.parse(localStorage.getItem("reviewId")));
+  // }, []);
+
+  useEffect( ()=>{
+    let review=localStorage.getItem("reviewId");
+    // console.log(localStorage.getItem("reviewId"))
+    if (review){
+
+      setReview(JSON.parse(review));
+    }
+
+  },[refreshLocalStorage]);
+
   useEffect(() => {
-    axios
-      .get(`${process.env.NEXT_PUBLIC_API_DOMAIN}/get-review`)
-      .then((response) => {
-        if (response.status === 200) {
-          let res = response?.data?.reviews?.find(
-            (review) => review.userId === "64aec93b150fdda7433c4d1e"
-          );
-
-          setReview(res);
-        } else {
-          setErrorMessage(response?.data?.message);
-        }
-      })
-      .catch((error) => {
-        setErrorMessage(error?.message);
-      })
-      .finally(() => {});
-
-    // setReview(JSON.parse(localStorage.getItem("reviewId")));
+    let user=localStorage.getItem("User");
+    if (!user) {
+      router.push("/login");
+    }
   }, []);
+  console.log(review);
   return (
     <>
       <div className="container">
@@ -79,7 +99,7 @@ const Review = () => {
               <input
                 type="text"
                 placeholder="Enter name"
-                // defaultValue={review?.firstName}
+                defaultValue={review?.firstName}
                 {...methods.register("firstName", {
                   required: "Please enter name",
                 })}
@@ -96,7 +116,7 @@ const Review = () => {
                 {...methods.register("message", {
                   required: "Please enter Message",
                 })}
-                // defaultValue={review?.message}
+                defaultValue={review?.message}
                 name="message"
                 id=""
                 cols="30"

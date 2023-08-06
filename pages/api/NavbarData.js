@@ -6,16 +6,11 @@ export const NavbarData=[
     },
     {
         id:2,
-        name:"About",
-        path:"/",
-    },
-    {
-        id:3,
         name:"Review",
         path:"/review",
     },
     {
-        id:4,
+        id:3,
         name:"Register",
         path:"/register",
     },
