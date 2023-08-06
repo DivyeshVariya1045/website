@@ -1518,23 +1518,6 @@ font-weight: bold;
   }
 }
 
-@media only screen and (min-width: 375px) {
-  .header {
-    position: relative;
-    height: 80vh;
-    min-height: 600px;
-    background-image: linear-gradient(to top, rgba(0, 0, 0, .7), rgba(0, 0, 0, .7)), url(/_next/static/media/images123.55b797e4.jpg);
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    color: #fff;
-}
-
-
-
-}
-
 .footer{
   background-color:rgb(143, 143, 177);;
 }
